@@ -4,7 +4,17 @@
   "description": "init",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "flow": "flow check",
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "lint": "yarn flow && eslint . && markdownlint README.md",
+    "prepublish": "in-publish && yarn lint && yarn code:build || not-in-publish",
+    "release:major": "changelog -M && git commit -a -m 'docs: updated CHANGELOG.md' && yarn version major && git push origin && git push origin --tags",
+    "release:minor": "changelog -m && git commit -a -m 'docs: updated CHANGELOG.md' && yarn version minor && git push origin && git push origin --tags",
+    "release:patch": "changelog -p && git commit -a -m 'docs: updated CHANGELOG.md' && yarn version patch && git push origin && git push origin --tags",
+    "code:build": "cross-env BABEL_ENV=registry babel src/ --out-dir build/ --copy-files --ignore ___tests___ --source-maps",
+    "test": "yarn test:unit",
+    "test:unit": "cross-env BABEL_ENV=test TZ=UTC jest --config ./test/jest.config.unit.js --maxWorkers 2",
+    "test:all": "yarn test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +36,7 @@
   "homepage": "https://github.com/trexguo/verdaccio-gitlab#readme",
   "dependencies": {
     "gitlab": "^3.10.1",
+    "http-errors": "^1.7.0",
     "node-cache": "^4.2.0"
   },
   "devDependencies": {
@@ -54,5 +65,10 @@
     "license-checker": "20.1.0",
     "markdownlint-cli": "0.11.0",
     "repolinter": "0.7.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }

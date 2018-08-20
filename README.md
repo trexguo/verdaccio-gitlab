@@ -10,7 +10,8 @@ as authentication provider for the private npm registry
 - If `legacy_mode: true`: Gitlab 9.0+
 
 ## Installation
-* `$ npm i verdaccio -g`
+
+- `$ npm i verdaccio -g`
 
 ## Configuration
 
@@ -20,7 +21,7 @@ Add the following in your `config.yaml`
 middlewares:
   gitlab:
     client-secret: github-app-secret # required
-    git-hostname: git-enteprise-domain-name # optional 
+    git-hostname: git-enteprise-domain-name # optional
 
 auth:
   gitlab:
